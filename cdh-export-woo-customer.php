@@ -5,7 +5,7 @@
  * Plugin URI: https://github.com/gabrielfilippi/cdh-export-woo-customer
  * Author: CodeHive
  * Author URI: https://codehive.com.br
- * Version: 1.1.0
+ * Version: 1.1.2
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: chd_image_converter
@@ -44,7 +44,7 @@ class WC_HPOS_Export_To_CSV_Optimized {
         // register js file
         wp_enqueue_script(
             'wc-export-csv',
-            plugins_url('js/cdh-export-woo-customer.min.js', __FILE__),
+            plugins_url('assets/js/cdh-export-woo-customer.min.js', __FILE__),
             [ 'jquery' ],
             '1.0.0',
             true // load on footer
@@ -68,7 +68,8 @@ class WC_HPOS_Export_To_CSV_Optimized {
 
         $offset = isset( $_POST['offset'] ) ? absint( $_POST['offset'] ) : 0;
         $upload_dir = wp_upload_dir();
-        $file_path = $upload_dir['basedir'] . '/codehive_export_woo_customer_and_users.csv';
+        $file_name = '/codehive_export_woo_customer_and_users.csv';
+        $file_path = $upload_dir['basedir'] . $file_name;
 
         // If it is the first batch, create the file and add the header
         if ( $offset === 0 && file_exists( $file_path ) ) {
@@ -158,7 +159,7 @@ class WC_HPOS_Export_To_CSV_Optimized {
         wp_send_json_success( [
             'message'     => "Processado até o lote com início no pedido $offset.",
             'next_offset' => $next_offset,
-            'file_url'    => $next_offset ? null : $upload_dir['baseurl'] . '/pedidos_woocommerce.csv',
+            'file_url'    => $next_offset ? null : $upload_dir['baseurl'] . $file_name,
         ] );
     }
 }
